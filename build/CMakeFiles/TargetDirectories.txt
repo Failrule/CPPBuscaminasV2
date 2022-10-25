@@ -1,0 +1,3 @@
+/home/sebastian/Documentos/Estudio/CPPMake/Experimentos/Buscaminas/build/CMakeFiles/Buscaminas.dir
+/home/sebastian/Documentos/Estudio/CPPMake/Experimentos/Buscaminas/build/CMakeFiles/edit_cache.dir
+/home/sebastian/Documentos/Estudio/CPPMake/Experimentos/Buscaminas/build/CMakeFiles/rebuild_cache.dir
