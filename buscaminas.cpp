@@ -3,8 +3,17 @@
 #include <map>
 using namespace std;
   
-int main()
+int main(int argc, char** argv)
 {
+    if(argc!=3 || !isdigit(argv[1][0]) || !isdigit(argv[2][0]) || (argv[2][0])>3)
+    {
+        cout<<"Uso: ./buscaminas 5 3 | es un tablero 5x5 con dificultad máxima [1-3]"<<endl;
+        return 1;
+    }
+    cout <<"Tablero de "<<argv[1]<<"x"<<argv[1][0]<<" dificultad "<<argv[2][0]<<endl;
+
+
+    
     bool bool_juego;
     char char_accion;
     int int_cant_minas;
@@ -17,8 +26,7 @@ int main()
     map<int, map<int,string>> map_juego;
     map<int, map<int,string>>::iterator itr_map_juego;
     map<int, string>::iterator ptr_map_juego;
-    
-    cout << "Hello world" << endl;
+
 }
 
 /*
