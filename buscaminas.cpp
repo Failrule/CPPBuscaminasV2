@@ -28,7 +28,7 @@ int main(int argc, char** argv)
     int int_coor_x;
     int int_coor_y;
     int int_dificultad;
-    int int_ite_filas;    
+    int int_ite_filas=0;;    
     int int_lado_tablero;
     int int_resultado;
     map<int, map<int,char>> map_juego;
@@ -61,7 +61,7 @@ int main(int argc, char** argv)
         for(int i=0;i!=(int_area_tablero);i++) //Pasa por cada una de las celdas del tablero
         {
             map_juego[i][1]='-';
-            int_aleatorio = rand()%2;
+            int_aleatorio = rand()%4;
             if(map_juego[i][0]!=9 && int_aleatorio==1 && int_cont_minas>0)//Si el arreglo no tiene una mina y el aleatorio es 0 y las minas aún no son 0
             {
                 map_juego[i][0]=9;
@@ -69,11 +69,76 @@ int main(int argc, char** argv)
             }
         }
     }
+    //Map de 5x5 para test
+    /*map_juego[0][1]='-';
+    map_juego[1][1]='-';
+    map_juego[2][1]='-';
+    map_juego[3][1]='-';
+    map_juego[4][1]='-';
+    map_juego[5][1]='-';
+    map_juego[6][1]='-';
+    map_juego[7][1]='-';
+    map_juego[8][1]='-';
+    map_juego[9][1]='-';
+    map_juego[10][1]='-';
+    map_juego[11][1]='-';
+    map_juego[12][1]='-';
+    map_juego[13][1]='-';
+    map_juego[14][1]='-';
+    map_juego[15][1]='-';
+    map_juego[16][1]='-';
+    map_juego[17][1]='-';
+    map_juego[18][1]='-';
+    map_juego[19][1]='-';
+    map_juego[20][1]='-';
+    map_juego[21][1]='-';
+    map_juego[22][1]='-';
+    map_juego[23][1]='-';
+    map_juego[24][1]='-';
+
+    map_juego[0][0]=9;
+    map_juego[1][0]=0;
+    map_juego[2][0]=0;
+    map_juego[3][0]=9;
+    map_juego[4][0]=0;
+    map_juego[5][0]=9;
+    map_juego[6][0]=0;
+    map_juego[7][0]=0;
+    map_juego[8][0]=9;
+    map_juego[9][0]=0;
+    map_juego[10][0]=9;
+    map_juego[11][0]=9;
+    map_juego[12][0]=0;
+    map_juego[13][0]=0;
+    map_juego[14][0]=0;
+    map_juego[15][0]=9;
+    map_juego[16][0]=9;
+    map_juego[17][0]=0;
+    map_juego[18][0]=9;
+    map_juego[19][0]=0;
+    map_juego[20][0]=0;
+    map_juego[21][0]=0;
+    map_juego[22][0]=0;
+    map_juego[23][0]=0;
+    map_juego[24][0]=0;*/
+    
+    //Pintar tablero Claro
+    for(int i=0;i!=int_area_tablero;i++)
+    {
+        cout << int(map_juego[i][0]) << " ";
+        int_ite_filas++;
+        if(int_ite_filas==int_lado_tablero)
+        {
+            cout << endl;
+            int_ite_filas=0;
+        }
+    }
+    cout << endl;
     //Calcular campo de minas
     for(int i=0;i!=int_area_tablero;i++)
     {
         //Todas las de la derecha, no entrar si col = int_lado_tablero
-        if(map_juego[i][0]!=9 && int_ite_filas!=int_lado_tablero)
+        if(map_juego[i][0]!=9 && int_ite_filas != int_lado_tablero-1)
         {
             if(map_juego[i+1][0]==9)
             {
@@ -105,33 +170,33 @@ int main(int argc, char** argv)
             }
         }
         //Todas las de arriba derecha, no entrar si col=int_lado_tablero
-        if(map_juego[i][0]!=9 && int_ite_filas!=int_lado_tablero)
+        if(map_juego[i][0]!=9 && int_ite_filas != int_lado_tablero-1)
         {
-            if(map_juego[i-int_lado_tablero+1][0]==9)
+            if(map_juego[(i-int_lado_tablero)+1][0]==9)
             {
                 map_juego[i][0]++;
             }
         }
         //Todas las de arriba izquierda, no entrar si col=0
-        if(map_juego[i][0]!=9 && int_ite_filas!=0)
+        if(map_juego[i][0]!=9 && int_ite_filas !=0)
         {
-            if(map_juego[i-int_lado_tablero-1][0]==9)
+            if(map_juego[(i-int_lado_tablero)-1][0]==9)
             {
                 map_juego[i][0]++;
             }
         }
         //Todas las de abajo derecha, no entrar si col=int_lado_tablero
-        if(map_juego[i][0]!=9 && int_ite_filas!=int_lado_tablero)
+        if(map_juego[i][0]!=9 && int_ite_filas != int_lado_tablero-1)
         {
-            if(map_juego[i+int_lado_tablero-1][0]==9)
+            if(map_juego[(i+int_lado_tablero)+1][0]==9)
             {
                 map_juego[i][0]++;
             }
         }
         //Todas las de abajo izquierda, no entrar si col=0
-        if(map_juego[i][0]!=9 && int_ite_filas!=0)
+        if(map_juego[i][0]!=9 && int_ite_filas != 0)
         {
-            if(map_juego[i-int_lado_tablero][0]==9)
+            if(map_juego[(i+int_lado_tablero)-1][0]==9)
             {
                 map_juego[i][0]++;
             }
@@ -141,17 +206,28 @@ int main(int argc, char** argv)
         {
             int_ite_filas=0;
         }
-        
     }
-    //Pintar tablero Claro
+    //Pintar tablero claro
     for(int i=0;i!=int_area_tablero;i++)
     {
-        cout << int(map_juego[i][0]) << " ";
+        cout << int(map_juego[i][0]) << " ";//pinta claro
         int_ite_filas++;
         if(int_ite_filas==int_lado_tablero)
         {
             cout << endl;
-            int_ite_filas=0;
+            int_ite_filas=0;;
+        }
+    }
+    cout << endl;
+    //Pintar oscuro
+    for(int i=0;i!=int_area_tablero;i++)
+    {
+        cout << map_juego[i][1] << " ";//Imprime oscuro
+        int_ite_filas++;
+        if(int_ite_filas==int_lado_tablero)
+        {
+            cout << endl;
+            int_ite_filas=0;;
         }
     }
     return 1;
@@ -266,7 +342,7 @@ Asignar minas a posiciones -- OK
                     map_juego→second=random(0 y 9)
                     int_temp_cant_minas--
 
-Sumar minas vecinas y llenar map_juego ¿ITR termina siendo la dimensión del campo? parece que todo el campo
+Sumar minas vecinas y llenar el campo -- OK
     ej:
     0 1 1 1
     0 1 9 1
@@ -296,13 +372,13 @@ Sumar minas vecinas y llenar map_juego ¿ITR termina siendo la dimensión del ca
          map_juego[itr].insert(make_pair(int_cont_mina, "·"));
 
     
-Pintar campo oscuro
+Pintar campo oscuro -- OK
     funcPintarCampoOscuro(){
         for(hasta que se acaben las celdas del map) ¿anidado?
                 cout << map_juego.ptr->second; //Imprimirá · o M según el caso
         }
 
-Pintar campo claro
+Pintar campo claro -- OK
     funcPintarCampoClaro(){
         for(hasta que se acaben las celdas del map) ¿anidado?
                 cout << map_juego.ptr->first; //Imprimirá el valor de la celda
