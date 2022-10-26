@@ -5,18 +5,19 @@ using namespace std;
   
 int main(int argc, char** argv)
 {
+    //Validación de parámetros de entrada
+    //Se resta 48 a argv[2][0] para convertir debido a la tabla Ascii
     if(argc!=3 || !isdigit(argv[1][0]) || !isdigit(argv[2][0]) || int(argv[2][0]-48)>3 || int(argv[2][0]-48)<1)
     {
         cout<<"Uso: ./buscaminas 5 3 | es un tablero 5x5 con dificultad máxima [1-3]"<<endl;
-        cout << int(argv[2][0]-48)+1 << endl;
         return 1;
     }
     cout <<"Tablero de "<<argv[1]<<"x"<<argv[1]<<" dificultad "<<argv[2][0]<<endl;
-
-
     
+    //Instanciación de variables
     bool bool_juego;
     char char_accion;
+    float float_dificultad;
     int int_cant_minas;
     int int_cont_minas;
     int int_coor_x;
@@ -27,13 +28,32 @@ int main(int argc, char** argv)
     map<int, map<int,string>> map_juego;
     map<int, map<int,string>>::iterator itr_map_juego;
     map<int, string>::iterator ptr_map_juego;
+    
+    //Instanciación de tablero
+    int_tablero = int(argv[1][0]-48);
+
+    //Instanciación de cantidad de minas según dificultad
+    int_dificultad = int(argv[2][0]-48);
+    if(int_dificultad==1)
+    {
+        float_dificultad = 0.2; //20% del tablero con minas
+    }
+    else if(int_dificultad==2)
+    {
+        float_dificultad = 0.5; //50% del tablero con minas
+    }
+    else
+    {
+        float_dificultad = 0.9; //90% del tablero con minas
+    }
+    int_cant_minas = int((int_tablero*int_tablero)*float_dificultad);
 
 }
 
 /*
 Configurar entorno para hacer pruebas y debugs con CMake -- OK
 
-Definir variables
+Definir variables -- OK
     Para las posiciones, contenido y estado de las casillas 
         map_juego 
             map<int, map<int,String>> 
@@ -65,7 +85,7 @@ Definir variables
     Para el resultado del juego
         int_resultado
     
-Ingresar dimensión del tablero
+Ingresar dimensión del tablero -- OK
     Ingrese la dimensión EJ: 5 será un tablero de 5x5
 
 Ingresar dificultad del tablero
