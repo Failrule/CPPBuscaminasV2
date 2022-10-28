@@ -3,44 +3,42 @@
 #include <map>
 #include <time.h>
 #include <cstdlib>
+
 using namespace std;
   
-//Declaración de variables
-bool bool_juego;
-char char_accion;
-float float_dificultad;
-int int_area_tablero;
-int int_aleatorio;
-int int_cant_descubiertas;
-int int_cant_marcadas;
-int int_cant_minas;
-int int_cont_minas;
-int int_coor_x;
-int int_coor_y;
-int int_dificultad;
-int int_ite_filas=0;;    
-int int_lado_tablero;
-int int_resultado;
-map<int, map<int,char>> map_juego;
-map<int, map<int,char>>::iterator itr_map_juego;
-map<int, char>::iterator ptr_map_juego;
 
-//Declaración de funciones
-void funImprOscuro();
-void funImprClaro();
-void funImprId();
+//Declaración de funcion imprimir tablero
+void funImpr(int, int, int, map<int, map<int,char>>, char);
 
 //Buscaminas
 int main(int argc, char** argv)
 {
+    //Declaración de variables
+    bool bool_juego;                                    //Mientras sea true se jugará
+    char char_accion;                                   //Usuario ingresa [M]arcar o [D]estapar
+    char char_opc_impr;                                 //Sistema ingresa [c]laro para imprimir contenido celda, [p]osición para poder elegir, null para imprimir oscuro
+    float float_dificultad;                             //Ayuda a calcular porcentaje de minas relativo a la dimensión del campo y la dificultad
+    int int_area_tablero;                               //Area calculada apartir de int_lado_tablero
+    int int_aleatorio;                                  //Aleatorio para minar campo
+    int int_cant_descubiertas;                          //Cuenta campos descubiertos por el usuario
+    int int_cant_marcas;                                //Cuenta marcas puestas por el usuario
+    int int_cant_minas;                                 //Cantidad minas puestas por el sistema según dificultad
+    int int_cont_minas;                                 //Cuenta minas puestas por el sistema para validar que se pongan todas
+    int int_selec_celda;                                //Número correspondiente al número ID de la celda
+    int int_dificultad;                                 //Nivel de dificultad ingresada por el usuario de 1 a 3
+    int int_ite_filas=0;;                               //Contador para darle forma de cuadrado al sistema
+    int int_lado_tablero;                               //Dimension de largo o alto ingresada para cálculo de int_area_tablero
+    int int_resultado;                                  //Ayuda a calcular estado del juego en relación a int_cant_minas, int_cant_marcas, map_juego.max_size()
+    map<int, map<int,char>> map_juego;                  //Map para almacenar posiciones estados y valores de las minas
+
     //Validación de parámetros de entrada
-    //Se resta 48 a argv[2][0] para convertir debido a la tabla Ascii
-    if(argc!=3 || !isdigit(argv[1][0]) || !isdigit(argv[2][0]) || int(argv[2][0]-48)>3 || int(argv[2][0]-48)<1)
+    if(argc!=3 || !isdigit(argv[1][0]) || !isdigit(argv[2][0]) || int(argv[2][0]-48)>3 || int(argv[2][0]-48)<1) //Se resta 48 a argv[2][0] para convertir char a valor int
     {
         cout<<"Uso: ./buscaminas 5 3 | es un tablero 5x5 con dificultad máxima [1-3]"<<endl;
         return 1;
     }
-    cout <<"Tablero de "<<argv[1]<<"x"<<argv[1]<<" dificultad "<<argv[2][0]<<endl;
+    cout <<"Tablero de "<<argv[1]<<"x"<<argv[1]<<" dificultad "<<argv[2][0]<<"\n\n";
+
     //Instanciación de tablero
     int_lado_tablero = int(argv[1][0]-48);
     int_area_tablero = int_lado_tablero*int_lado_tablero;
@@ -76,71 +74,7 @@ int main(int argc, char** argv)
             }
         }
     }
-    //Map de 5x5 para test
-    /*map_juego[0][1]='-';
-    map_juego[1][1]='-';
-    map_juego[2][1]='-';
-    map_juego[3][1]='-';
-    map_juego[4][1]='-';
-    map_juego[5][1]='-';
-    map_juego[6][1]='-';
-    map_juego[7][1]='-';
-    map_juego[8][1]='-';
-    map_juego[9][1]='-';
-    map_juego[10][1]='-';
-    map_juego[11][1]='-';
-    map_juego[12][1]='-';
-    map_juego[13][1]='-';
-    map_juego[14][1]='-';
-    map_juego[15][1]='-';
-    map_juego[16][1]='-';
-    map_juego[17][1]='-';
-    map_juego[18][1]='-';
-    map_juego[19][1]='-';
-    map_juego[20][1]='-';
-    map_juego[21][1]='-';
-    map_juego[22][1]='-';
-    map_juego[23][1]='-';
-    map_juego[24][1]='-';
 
-    map_juego[0][0]=9;
-    map_juego[1][0]=0;
-    map_juego[2][0]=0;
-    map_juego[3][0]=9;
-    map_juego[4][0]=0;
-    map_juego[5][0]=9;
-    map_juego[6][0]=0;
-    map_juego[7][0]=0;
-    map_juego[8][0]=9;
-    map_juego[9][0]=0;
-    map_juego[10][0]=9;
-    map_juego[11][0]=9;
-    map_juego[12][0]=0;
-    map_juego[13][0]=0;
-    map_juego[14][0]=0;
-    map_juego[15][0]=9;
-    map_juego[16][0]=9;
-    map_juego[17][0]=0;
-    map_juego[18][0]=9;
-    map_juego[19][0]=0;
-    map_juego[20][0]=0;
-    map_juego[21][0]=0;
-    map_juego[22][0]=0;
-    map_juego[23][0]=0;
-    map_juego[24][0]=0;*/
-    
-    //Pintar tablero Claro
-    for(int i=0;i!=int_area_tablero;i++)
-    {
-        cout << int(map_juego[i][0]) << " ";
-        int_ite_filas++;
-        if(int_ite_filas==int_lado_tablero)
-        {
-            cout << endl;
-            int_ite_filas=0;
-        }
-    }
-    cout << endl;
     //Calcular campo de minas
     for(int i=0;i!=int_area_tablero;i++)
     {
@@ -214,132 +148,58 @@ int main(int argc, char** argv)
             int_ite_filas=0;
         }
     }
-    funImprClaro();
-    
-    cout << "\t\bSeleccione celda ";
-    cin >> int_coor_x; //Debo cambiar esto y la Y
-    if(map_juego[int_coor_x][0]!=9)
+
+    //Flujo de juego
+    while(int_resultado!=0)//Siempre que sea 0 jugará hasta que gane int_resultado == 1 o pierda return 1;
     {
-        map_juego[int_coor_x][1]=map_juego[int_coor_x][0];
-        //Pintar oscuro
-        for(int i=0;i!=int_area_tablero;i++)
-        {
-        cout << "\t\b" <<int(map_juego[i][1]) <<"\t\b";//Imprime oscuro
-        int_ite_filas++;
-            if(int_ite_filas==int_lado_tablero)
-            {
-                cout << "\n\n\n";
-                int_ite_filas=0;;
-            }
-        }
+        
+    }
+
+    funImpr(int_area_tablero, int_ite_filas, int_lado_tablero, map_juego, char_opc_impr);
+    cout << "\t\bSeleccione celda\n\n\n";
+    char_opc_impr = 'o';
+    funImpr(int_area_tablero, int_ite_filas, int_lado_tablero, map_juego, char_opc_impr);
+    cout << "\t\bSeleccione celda ";
+    
+
+    //Validación celda
+    cin >> int_selec_celda;
+    if(map_juego[int_selec_celda][0]!=9)
+    {
+        map_juego[int_selec_celda][1]=map_juego[int_selec_celda][0];
     }
     else
     {
         cout << "\t\b¡ Boom ! XD" << endl;
     }
-    
-
-    return 1;
-    int_aleatorio = rand()%2;
-    map_juego[0][0]=int_aleatorio;
-    map_juego[0][1]='-';
-    int_aleatorio = rand()%2;
-    map_juego[1][0]=int_aleatorio;
-    map_juego[1][1]='-';
-    int_aleatorio = rand()%2;
-    map_juego[2][0]=int_aleatorio;
-    map_juego[2][1]='-';
-    int_aleatorio = rand()%2;
-    map_juego[3][0]=int_aleatorio;
-    map_juego[3][1]='-';
-    while(!((int_cant_descubiertas+int_cant_marcadas)==int_lado_tablero))
-    {
-        for(int i=0;i<int_lado_tablero; i++)
-        {
-            for(int j=0;j<int_lado_tablero;j++)
-            {
-                cout << map_juego[i][1];
-            }
-            cout << endl;
-        }
-        cin >> int_coor_x >> int_coor_y >> char_accion;
-        if(char_accion=='d' || char_accion=='D')
-        {
-            if (map_juego[0][0]!=1)//1 es igual a bomba 9
-            {
-                map_juego[0][1]==map_juego[0][0];
-                cout << "OK" << endl;
-                int_cant_descubiertas++;
-            }
-            else
-            {
-                cout << "BOOM!" << endl;
-                return 1;
-            }
-        }
-        else if(char_accion=='m' || char_accion=='M')
-        {
-
-        }
-    }
-    /* 
-    map_juego[0][0]=3;
-    map_juego[0][1]='M';
-    map_juego[1][0]=1;
-    map_juego[1][1]='-';
-    map_juego[2][0]=4;
-    map_juego[2][1]=map_juego[2][0];
-    cout << int_aleatorio << endl;
-    cout << int(map_juego[0][0]) <<" "<< map_juego[0][1] << endl;
-    cout << int(map_juego[1][0]) <<" "<< map_juego[1][1] << endl;
-    cout << int(map_juego[2][0]) <<" "<< int(map_juego[2][0]) << endl;
-     */
 }
 
-//Imprime persiana con número 45 equivalentes a char '-'
-void funImprOscuro()
+//Imprime tablero
+void funImpr(int int_area_tablero, int int_ite_filas, int int_lado_tablero, map<int, map<int,char>> map_juego, char char_opc_impr)
 {
     for(int i=0;i!=int_area_tablero;i++)
     {
-        cout << "\t\b" <<int(map_juego[i][1]) <<"\t\b";//Imprime map en su posición 1 que son 45
+        if (char_opc_impr == 'c') // Opción Claro
+        {
+            cout << "\t\b" << int(map_juego[i][0]) << "\t\b";//Imprime map en su posición 0 que son los valores y las minas
+        }
+        else if (char_opc_impr == 'p')
+        {
+            cout << "\t\b" << i << "\t\b";//Imprime posiciones de los campos que son números para seleccionar
+        }
+        else // Opción Oscuro
+        {
+            cout << "\t\b" << int(map_juego[i][1]) <<"\t\b";//Imprime 45 por algo de la tabla Ascii
+        }
         int_ite_filas++;
         if(int_ite_filas==int_lado_tablero)
         {
             cout << "\n\n\n";
-            int_ite_filas=0;;
+            int_ite_filas=0;
         }
     }
 }
 
-//Imprime tablero sin persiana
-void funImprClaro()
-{
-    for(int i=0;i!=int_area_tablero;i++)
-    {
-        cout << int(map_juego[i][0]) << " ";//Imprime map en su posición 0 que son los valores y las minas
-        int_ite_filas++;
-        if(int_ite_filas==int_lado_tablero)
-        {
-            cout << endl;
-            int_ite_filas=0;;
-        }
-    }
-}
-
-//Imprime id para selección de la celda
-void funImprId()
-{
-    for(int i=0;i!=int_area_tablero;i++)
-    {
-        cout << int(map_juego[i][0]) << " ";//Imprime posiciones de los campos que son números para seleccionar
-        int_ite_filas++;
-        if(int_ite_filas==int_lado_tablero)
-        {
-            cout << endl;
-            int_ite_filas=0;;
-        }
-    }
-}
 
 /*
 Configurar entorno para hacer pruebas y debugs con CMake -- OK
