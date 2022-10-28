@@ -5,6 +5,32 @@
 #include <cstdlib>
 using namespace std;
   
+//Declaración de variables
+bool bool_juego;
+char char_accion;
+float float_dificultad;
+int int_area_tablero;
+int int_aleatorio;
+int int_cant_descubiertas;
+int int_cant_marcadas;
+int int_cant_minas;
+int int_cont_minas;
+int int_coor_x;
+int int_coor_y;
+int int_dificultad;
+int int_ite_filas=0;;    
+int int_lado_tablero;
+int int_resultado;
+map<int, map<int,char>> map_juego;
+map<int, map<int,char>>::iterator itr_map_juego;
+map<int, char>::iterator ptr_map_juego;
+
+//Declaración de funciones
+void funImprOscuro();
+void funImprClaro();
+void funImprId();
+
+//Buscaminas
 int main(int argc, char** argv)
 {
     //Validación de parámetros de entrada
@@ -15,25 +41,6 @@ int main(int argc, char** argv)
         return 1;
     }
     cout <<"Tablero de "<<argv[1]<<"x"<<argv[1]<<" dificultad "<<argv[2][0]<<endl;
-    //Instanciación de variables
-    bool bool_juego;
-    char char_accion;
-    float float_dificultad;
-    int int_area_tablero;
-    int int_aleatorio;
-    int int_cant_descubiertas;
-    int int_cant_marcadas;
-    int int_cant_minas;
-    int int_cont_minas;
-    int int_coor_x;
-    int int_coor_y;
-    int int_dificultad;
-    int int_ite_filas=0;;    
-    int int_lado_tablero;
-    int int_resultado;
-    map<int, map<int,char>> map_juego;
-    map<int, map<int,char>>::iterator itr_map_juego;
-    map<int, char>::iterator ptr_map_juego;
     //Instanciación de tablero
     int_lado_tablero = int(argv[1][0]-48);
     int_area_tablero = int_lado_tablero*int_lado_tablero;
@@ -207,40 +214,8 @@ int main(int argc, char** argv)
             int_ite_filas=0;
         }
     }
-    //Pintar tablero claro
-    for(int i=0;i!=int_area_tablero;i++)
-    {
-        cout << int(map_juego[i][0]) << " ";//pinta claro
-        int_ite_filas++;
-        if(int_ite_filas==int_lado_tablero)
-        {
-            cout << endl;
-            int_ite_filas=0;;
-        }
-    }
-    cout << endl;
-    //Pintar oscuro
-    for(int i=0;i!=int_area_tablero;i++)
-    {
-        cout << "\t\b" <<int(map_juego[i][1]) <<"\t\b";//Imprime oscuro
-        int_ite_filas++;
-        if(int_ite_filas==int_lado_tablero)
-        {
-            cout << "\n\n\n";
-            int_ite_filas=0;;
-        }
-    }
-    //Pinta posiciones
-        for(int i=0;i!=int_area_tablero;i++)
-    {
-        cout << "\t\b" << i <<"\t\b";//Imprime id de celdas
-        int_ite_filas++;
-        if(int_ite_filas==int_lado_tablero)
-        {
-            cout << "\n\n\n";
-            int_ite_filas=0;;
-        }
-    }
+    funImprClaro();
+    
     cout << "\t\bSeleccione celda ";
     cin >> int_coor_x; //Debo cambiar esto y la Y
     if(map_juego[int_coor_x][0]!=9)
@@ -319,6 +294,51 @@ int main(int argc, char** argv)
     cout << int(map_juego[1][0]) <<" "<< map_juego[1][1] << endl;
     cout << int(map_juego[2][0]) <<" "<< int(map_juego[2][0]) << endl;
      */
+}
+
+//Imprime persiana con número 45 equivalentes a char '-'
+void funImprOscuro()
+{
+    for(int i=0;i!=int_area_tablero;i++)
+    {
+        cout << "\t\b" <<int(map_juego[i][1]) <<"\t\b";//Imprime map en su posición 1 que son 45
+        int_ite_filas++;
+        if(int_ite_filas==int_lado_tablero)
+        {
+            cout << "\n\n\n";
+            int_ite_filas=0;;
+        }
+    }
+}
+
+//Imprime tablero sin persiana
+void funImprClaro()
+{
+    for(int i=0;i!=int_area_tablero;i++)
+    {
+        cout << int(map_juego[i][0]) << " ";//Imprime map en su posición 0 que son los valores y las minas
+        int_ite_filas++;
+        if(int_ite_filas==int_lado_tablero)
+        {
+            cout << endl;
+            int_ite_filas=0;;
+        }
+    }
+}
+
+//Imprime id para selección de la celda
+void funImprId()
+{
+    for(int i=0;i!=int_area_tablero;i++)
+    {
+        cout << int(map_juego[i][0]) << " ";//Imprime posiciones de los campos que son números para seleccionar
+        int_ite_filas++;
+        if(int_ite_filas==int_lado_tablero)
+        {
+            cout << endl;
+            int_ite_filas=0;;
+        }
+    }
 }
 
 /*
