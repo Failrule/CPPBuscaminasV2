@@ -222,16 +222,49 @@ int main(int argc, char** argv)
     //Pintar oscuro
     for(int i=0;i!=int_area_tablero;i++)
     {
-        cout << map_juego[i][1] << " ";//Imprime oscuro
+        cout << "\t\b" <<int(map_juego[i][1]) <<"\t\b";//Imprime oscuro
         int_ite_filas++;
         if(int_ite_filas==int_lado_tablero)
         {
-            cout << endl;
+            cout << "\n\n\n";
             int_ite_filas=0;;
         }
     }
-    return 1;
+    //Pinta posiciones
+        for(int i=0;i!=int_area_tablero;i++)
+    {
+        cout << "\t\b" << i <<"\t\b";//Imprime id de celdas
+        int_ite_filas++;
+        if(int_ite_filas==int_lado_tablero)
+        {
+            cout << "\n\n\n";
+            int_ite_filas=0;;
+        }
+    }
+    cout << "\t\bSeleccione celda ";
+    cin >> int_coor_x; //Debo cambiar esto y la Y
+    if(map_juego[int_coor_x][0]!=9)
+    {
+        map_juego[int_coor_x][1]=map_juego[int_coor_x][0];
+        //Pintar oscuro
+        for(int i=0;i!=int_area_tablero;i++)
+        {
+        cout << "\t\b" <<int(map_juego[i][1]) <<"\t\b";//Imprime oscuro
+        int_ite_filas++;
+            if(int_ite_filas==int_lado_tablero)
+            {
+                cout << "\n\n\n";
+                int_ite_filas=0;;
+            }
+        }
+    }
+    else
+    {
+        cout << "\t\b¡ Boom ! XD" << endl;
+    }
     
+
+    return 1;
     int_aleatorio = rand()%2;
     map_juego[0][0]=int_aleatorio;
     map_juego[0][1]='-';
@@ -385,7 +418,7 @@ Pintar campo claro -- OK
         }
 
 
-Validar celda
+Validar celda -- OK
     int funcValidarCelda()
         cin << int_coor_x << int_coor_y << char_accion[[M]arcar, [D]estapar]; 
         if (char_accion=='M')
