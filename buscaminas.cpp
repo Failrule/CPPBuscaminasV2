@@ -439,6 +439,17 @@ Validar celda -- OK
                 else
                 return 1; //Juega
 
+Hacer impresión de tablero como función
+    funImprOscuro
+        Imprime persiana
+    funImprClaro
+        Imprime valor celda
+    funImprId
+        Imprime posiciones
+
+
+
+
 Flujo de juego
         bool_juego=true;
         limpiaPantalla()
