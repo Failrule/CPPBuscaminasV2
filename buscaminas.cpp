@@ -203,7 +203,14 @@ void funImpr(int int_area_tablero, int int_ite_filas, int int_lado_tablero, map<
         }
         else // Opción Oscuro
         {
-            cout << "\t\b" << int(map_juego[i][1]) <<"\t\b";//Imprime 45 por algo de la tabla Ascii
+            if(char(map_juego[i][1])=='-')
+            {
+                cout << "\t\b" << char(map_juego[i][1]) <<"\t\b";//Imprime 45 por algo de la tabla Ascii
+            }
+            else
+            {
+                cout << "\t\b" << int(map_juego[i][1]) <<"\t\b";//Imprime 45 por algo de la tabla Ascii
+            }
         }
         int_ite_filas++;
         if(int_ite_filas==int_lado_tablero)
