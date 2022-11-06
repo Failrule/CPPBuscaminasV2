@@ -14,7 +14,6 @@ void funImpr(int, int, int, map<int, map<int,char>>, char);
 int main(int argc, char** argv)
 {
     //Declaración de variables
-    bool bool_juego;                                    //Mientras sea true se jugará
     char char_accion;                                   //Usuario ingresa [M]arcar o [D]estapar
     char char_opc_impr;                                 //Sistema ingresa [c]laro para imprimir contenido celda, [p]osición para poder elegir, null para imprimir oscuro
     float float_dificultad;                             //Ayuda a calcular porcentaje de minas relativo a la dimensión del campo y la dificultad
@@ -150,7 +149,6 @@ int main(int argc, char** argv)
     }
 
     //Flujo de juego
-    bool_juego=true;
     int_cant_marcas = int_cant_minas; // Iguala valores de minas y marcas para calcular estado del juego  
     int_cant_marcadas = 0;  
     int_cant_descubiertas = 0; // Configura a 0 descubiertas
@@ -193,13 +191,14 @@ int main(int argc, char** argv)
                 system("sleep 3");
                 char_opc_impr=' ';
             }
-            else
+            else if(map_juego[int_selec_celda][0]==9)
             {
                 char_opc_impr='c';
                 funImpr(int_area_tablero, int_ite_filas, int_lado_tablero, map_juego, char_opc_impr);
                 cout << "\t\b¡ Boom ! XD" << endl;
-                bool_juego=false;
-            }char_opc_impr=' ';
+                return 1;
+            }
+            char_opc_impr=' ';
         }
         else if(char_accion=='m' || char_accion=='M')
         {
