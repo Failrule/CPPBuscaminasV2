@@ -23,6 +23,7 @@ int main(int argc, char** argv)
     int int_cant_marcas;                                //Cuenta marcas disponibles
     int int_cant_marcadas;                              //Cuenta marcas puestas por el usuario
     int int_cant_minas;                                 //Cantidad minas puestas por el sistema según dificultad
+    int int_cant_pistas;                                //Cantidad de pistas para poder ver qué hay en una celda
     int int_cont_minas;                                 //Cuenta minas puestas por el sistema para validar que se pongan todas
     int int_selec_celda;                                //Número correspondiente al número ID de la celda
     int int_dificultad;                                 //Nivel de dificultad ingresada por el usuario de 1 a 3
@@ -152,11 +153,13 @@ int main(int argc, char** argv)
     int_cant_marcas = int_cant_minas; // Iguala valores de minas y marcas para calcular estado del juego  
     int_cant_marcadas = 0;  
     int_cant_descubiertas = 0; // Configura a 0 descubiertas
+    int_cant_pistas = (int_cant_minas/2)+1;
     while((int_cant_marcadas+int_cant_descubiertas)!=int_area_tablero) //Mientras el área del tablero no sea igual a la suma entre marcas y descubiertas, juega 
     {
         funImpr(int_area_tablero, int_ite_filas, int_lado_tablero, map_juego, char_opc_impr);
-        cout << "\t\bMarcas disponibles: " << int_cant_marcas << "\n";
-        cout << "\t\b[D]escubrir o [m]arcar/desmarcar ";
+        cout << "\t\bMarcas disponibles: " << int_cant_marcas << endl;
+        cout << "\t\bPistas disponibles: " << int_cant_pistas << endl << endl;
+        cout << "\t\b[d]escubrir, [m]arcar/desmarcar, [p]ista: ";
         cin >> char_accion;
         if(cin.fail())
         {
@@ -227,6 +230,33 @@ int main(int argc, char** argv)
                 cout << "\t\bCelda "<< int_selec_celda <<" está descubierta y tiene valor de "<< int(map_juego[int_selec_celda][0]) << endl;
                 system("sleep 3");
                 char_opc_impr=' ';
+            }
+        }
+        else if(char_accion=='p' || char_accion=='P')
+        {
+            char_opc_impr='p';
+            funImpr(int_area_tablero, int_ite_filas, int_lado_tablero, map_juego, char_opc_impr);
+            //Validación celda
+            cout << "\t\bEscriba el número de la celda que quiere investigar: ";
+            cin >> int_selec_celda;
+            if(map_juego[int_selec_celda][1]=='-' && int_cant_pistas!=0)
+            {
+                cout << "\t\bEsta celda tiene " << int(map_juego[int_selec_celda][0]) <<" en su interior"<< endl;
+                system("sleep 3");
+                char_opc_impr=' ';
+                int_cant_pistas--;
+            }
+            else if(int_cant_pistas==0)
+            {
+                cout << "\t\bYa no tiene más pistas disponibles"<< endl;
+                char_opc_impr=' ';
+                system("sleep 3");
+            }
+            else
+            {
+                cout << "\t\bEsta celda está descubierta o está marcada"<< endl;
+                char_opc_impr=' ';
+                system("sleep 3");
             }
         }
     }
