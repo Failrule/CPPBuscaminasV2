@@ -1,0 +1,3 @@
+- Bug: Control al ingresar letras en selección de celda
+- Glitch: No estalla
+- Refactor para que main no sea todera
