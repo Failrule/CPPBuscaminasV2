@@ -160,7 +160,12 @@ int main(int argc, char** argv)
         cout << "\t\bMarcas disponibles: " << int_cant_marcas << "\n";
         cout << "\t\b[D]escubrir o [m]arcar/desmarcar ";
         cin >> char_accion;
-        if(char_accion=='d' || char_accion=='D')
+        if(cin.fail())
+        {
+            cout << "\n\t\bFatal: Por favor eliga cuidadosamente las opciones\n";
+            return 1;
+        }
+        else if(char_accion=='d' || char_accion=='D')
         {
             char_opc_impr='p';
             funImpr(int_area_tablero, int_ite_filas, int_lado_tablero, map_juego, char_opc_impr);
@@ -225,7 +230,6 @@ int main(int argc, char** argv)
                 char_opc_impr=' ';
             }
         }
-
     }
     char_opc_impr='c';
     funImpr(int_area_tablero, int_ite_filas, int_lado_tablero, map_juego, char_opc_impr);
