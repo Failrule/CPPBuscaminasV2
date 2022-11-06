@@ -203,13 +203,13 @@ void funImpr(int int_area_tablero, int int_ite_filas, int int_lado_tablero, map<
         }
         else // Opción Oscuro
         {
-            if(char(map_juego[i][1])=='-')
+            if(char(map_juego[i][1])=='-') //Si en ese campo del map existe un '-' imprima en char de lo contrario el valor
             {
-                cout << "\t\b" << char(map_juego[i][1]) <<"\t\b";//Imprime 45 por algo de la tabla Ascii
+                cout << "\t\b" << char(map_juego[i][1]) <<"\t\b";//Imprime en char
             }
             else
             {
-                cout << "\t\b" << int(map_juego[i][1]) <<"\t\b";//Imprime 45 por algo de la tabla Ascii
+                cout << "\t\b" << int(map_juego[i][1]) <<"\t\b";//Imprime en int
             }
         }
         int_ite_filas++;
