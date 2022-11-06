@@ -1,4 +1,4 @@
 - Bug: Control al ingresar letras en selección de celda  OK
 - Glitch: No estalla OK
-- Funcionalidad: Pista
+- Funcionalidad: Pista OK
 - Refactor para que main no sea todera
