@@ -153,18 +153,33 @@ int main(int argc, char** argv)
     while(bool_juego==true)//Siempre que sea true, jugará;
     {
         funImpr(int_area_tablero, int_ite_filas, int_lado_tablero, map_juego, char_opc_impr);
-        cout << "\t\b[D]escubrir o [m]arcar ";
+        cout << "\t\b[D]escubrir o [m]arcar/desmarcar ";
         cin >> char_accion;
         if(char_accion=='d' || char_accion=='D')
         {
             char_opc_impr='p';
             funImpr(int_area_tablero, int_ite_filas, int_lado_tablero, map_juego, char_opc_impr);
             //Validación celda
-            cout << "\t\bSeleccione el valor de la celda ";
+            cout << "\t\bEscriba el número de la celda a descubrir: ";
             cin >> int_selec_celda;
-            if(map_juego[int_selec_celda][0]!=9)
+            if(map_juego[int_selec_celda][0]!=9 && map_juego[int_selec_celda][1]!='>')
             {
-                map_juego[int_selec_celda][1]=map_juego[int_selec_celda][0];
+                if(map_juego[int_selec_celda][1]=='-') // Si la celda no está descubierta o marcada como mina
+                {
+                    map_juego[int_selec_celda][1]=map_juego[int_selec_celda][0];
+                    char_opc_impr=' ';
+                }
+                else
+                {
+                    cout << "\t\bCelda "<< int_selec_celda <<" ya está descubierta y tiene valor "<< int(map_juego[int_selec_celda][0]) << endl;
+                    system("sleep 3");
+                    char_opc_impr=' ';
+                }
+            }
+            else if(map_juego[int_selec_celda][1]=='>')
+            {
+                cout << "\t\bEsta celda está marcada, desmárquela antes de descubrirla" << endl;
+                system("sleep 3");
                 char_opc_impr=' ';
             }
             else
@@ -173,6 +188,32 @@ int main(int argc, char** argv)
                 funImpr(int_area_tablero, int_ite_filas, int_lado_tablero, map_juego, char_opc_impr);
                 cout << "\t\b¡ Boom ! XD" << endl;
                 bool_juego=false;
+            }char_opc_impr=' ';
+        }
+        else if(char_accion=='m' || char_accion=='M')
+        {
+            char_opc_impr='p';
+            funImpr(int_area_tablero, int_ite_filas, int_lado_tablero, map_juego, char_opc_impr);
+            //Validación celda
+            cout << "\t\bEscriba el número de la celda a marcar: ";
+            cin >> int_selec_celda; //Pilas, esto puede generar bug porque viene de arriba
+            if(map_juego[int_selec_celda][1]=='-')
+            {
+                map_juego[int_selec_celda][1]='>';
+                char_opc_impr=' ';
+            }
+            else if(map_juego[int_selec_celda][1]=='>')
+            {
+                cout << "\t\bCelda desmarcada" << endl;
+                map_juego[int_selec_celda][1]='-';
+                system("sleep 3");
+                char_opc_impr=' ';   
+            }
+            else
+            {
+                cout << "\t\bCelda "<< int_selec_celda <<" está descubierta y tiene valor de "<< int(map_juego[int_selec_celda][0]) << endl;
+                system("sleep 3");
+                char_opc_impr=' ';
             }
         }
 
@@ -203,7 +244,7 @@ void funImpr(int int_area_tablero, int int_ite_filas, int int_lado_tablero, map<
         }
         else // Opción Oscuro
         {
-            if(char(map_juego[i][1])=='-') //Si en ese campo del map existe un '-' imprima en char de lo contrario el valor
+            if(char(map_juego[i][1])=='-' || char(map_juego[i][1])=='>') //Si en ese campo del map existe un '-' o '>' imprima en char de lo contrario el valor
             {
                 cout << "\t\b" << char(map_juego[i][1]) <<"\t\b";//Imprime en char
             }
