@@ -21,7 +21,8 @@ int main(int argc, char** argv)
     int int_area_tablero;                               //Area calculada apartir de int_lado_tablero
     int int_aleatorio;                                  //Aleatorio para minar campo
     int int_cant_descubiertas;                          //Cuenta campos descubiertos por el usuario
-    int int_cant_marcas;                                //Cuenta marcas puestas por el usuario
+    int int_cant_marcas;                                //Cuenta marcas disponibles
+    int int_cant_marcadas;                              //Cuenta marcas puestas por el usuario
     int int_cant_minas;                                 //Cantidad minas puestas por el sistema según dificultad
     int int_cont_minas;                                 //Cuenta minas puestas por el sistema para validar que se pongan todas
     int int_selec_celda;                                //Número correspondiente al número ID de la celda
@@ -58,7 +59,7 @@ int main(int argc, char** argv)
     }
     int_cant_minas = int((int_area_tablero)*float_dificultad);
     //Inflar tablero y asignar minas
-    int_cont_minas = int_cant_minas;
+    int_cont_minas = int_cant_minas; // Iguala contador y cantidad de minas calculadas para control while
     while(int_cont_minas!=0)//Solo saldrá de aquí si todas las minas son puestas
     {
         srand(time(0));
@@ -150,9 +151,13 @@ int main(int argc, char** argv)
 
     //Flujo de juego
     bool_juego=true;
-    while(bool_juego==true)//Siempre que sea true, jugará;
+    int_cant_marcas = int_cant_minas; // Iguala valores de minas y marcas para calcular estado del juego  
+    int_cant_marcadas = 0;  
+    int_cant_descubiertas = 0; // Configura a 0 descubiertas
+    while((int_cant_marcadas+int_cant_descubiertas)!=int_area_tablero) //Mientras el área del tablero no sea igual a la suma entre marcas y descubiertas, juega 
     {
         funImpr(int_area_tablero, int_ite_filas, int_lado_tablero, map_juego, char_opc_impr);
+        cout << "\t\bMarcas disponibles: " << int_cant_marcas << "\n";
         cout << "\t\b[D]escubrir o [m]arcar/desmarcar ";
         cin >> char_accion;
         if(char_accion=='d' || char_accion=='D')
@@ -167,6 +172,7 @@ int main(int argc, char** argv)
                 if(map_juego[int_selec_celda][1]=='-') // Si la celda no está descubierta o marcada como mina
                 {
                     map_juego[int_selec_celda][1]=map_juego[int_selec_celda][0];
+                    int_cant_descubiertas++;
                     char_opc_impr=' ';
                 }
                 else
@@ -196,16 +202,19 @@ int main(int argc, char** argv)
             funImpr(int_area_tablero, int_ite_filas, int_lado_tablero, map_juego, char_opc_impr);
             //Validación celda
             cout << "\t\bEscriba el número de la celda a marcar: ";
-            cin >> int_selec_celda; //Pilas, esto puede generar bug porque viene de arriba
+            cin >> int_selec_celda;
             if(map_juego[int_selec_celda][1]=='-')
             {
                 map_juego[int_selec_celda][1]='>';
+                int_cant_marcas--;
+                int_cant_marcadas++;
                 char_opc_impr=' ';
             }
             else if(map_juego[int_selec_celda][1]=='>')
             {
                 cout << "\t\bCelda desmarcada" << endl;
                 map_juego[int_selec_celda][1]='-';
+                int_cant_marcas++;
                 system("sleep 3");
                 char_opc_impr=' ';   
             }
@@ -218,11 +227,9 @@ int main(int argc, char** argv)
         }
 
     }
-
-/*     cout << "\t\bSeleccione celda\n\n\n";
-    char_opc_impr = 'o';
+    char_opc_impr='c';
     funImpr(int_area_tablero, int_ite_filas, int_lado_tablero, map_juego, char_opc_impr);
-    cout << "\t\bSeleccione celda "; */
+    cout << "\t\b¡ Ganó !"<< endl;
     
 
 }
